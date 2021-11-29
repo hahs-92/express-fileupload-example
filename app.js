@@ -8,6 +8,10 @@ const PORT = process.env.PORT || 5000
 //default option
 app.use(fileUpload())
 
+//static files
+app.use(express.static('public'))
+app.use(express.static('upload'))
+
 //template engine
 app.engine('.hbs', engine({ extname: '.hbs'}))
 app.set('view engine', '.hbs')
