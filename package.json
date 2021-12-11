@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon app.js"
+    "dev": "nodemon src/index.js"
   },
   "keywords": ["node", "express", "fileupload"],
   "author": "Hugo Alexander Hernandez Serrano <Alexandre_2420@outlook.com>",
