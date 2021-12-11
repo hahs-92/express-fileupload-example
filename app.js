@@ -1,6 +1,7 @@
 const express = require('express')
 const { engine } = require('express-handlebars')
 const fileUpload = require('express-fileupload')
+const mysql = require('mysql')
 
 const app = express()
 const PORT = process.env.PORT || 5000
@@ -16,6 +17,20 @@ app.use(express.static('upload'))
 app.engine('.hbs', engine({ extname: '.hbs'}))
 app.set('view engine', '.hbs')
 app.set('views', './views')
+
+//connection pool
+const pool = mysql.createPool({
+    connectionLimit: 10,
+    host: "localhost",
+    user: "root",
+    password: "1234",
+    database: "fileupload-jobs-node"
+})
+
+pool.getConnection((err, conn) => {
+    if(err) throw err
+    console.log('CONNECTED')
+})
 
 //routes
 app.get('/', (req, res) => {
