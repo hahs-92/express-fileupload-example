@@ -10,15 +10,28 @@
 
 
 <article class="card">
-    <img
-        class="card__image"
-        src="/img/default.jpg"
-        alt="user profile"
-    >
-    <h1 class="card__title">HAHS</h1>
-    <h3 class="card__job">Web Developer</h3>
-    <p class="card__about">
-        Hi! I am Alex, I am a web developer
-    </p>
-    <button class="btn btn-primary" type="button">View Profile</button>
+    {{#each rows}}
+
+        {{#if this.profile_image}}
+            <img
+                class="card__image"
+                src={{this.profile_image}}
+                alt="user profile"
+            >
+        {{else}}
+            <img
+                class="card__image"
+                src="/img/default.jpg"
+                alt="user profile"
+            >
+        {{/if}}
+
+        <h1 class="card__title">{{this.name}}</h1>
+        <h3 class="card__job">{{this.job_title}}</h3>
+        <p class="card__about">
+            {{this.description}}
+        </p>
+        <button class="btn btn-primary" type="button">View Profile</button>
+
+    {{/each}}
 </article>

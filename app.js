@@ -27,14 +27,27 @@ const pool = mysql.createPool({
     database: "fileupload-jobs-node"
 })
 
-pool.getConnection((err, conn) => {
-    if(err) throw err
-    console.log('CONNECTED')
-})
+
+// pool.getConnection((err, conn) => {
+//     if(err) throw err
+//     console.log('CONNECTED')
+// })
 
 //routes
 app.get('/', (req, res) => {
-    res.render('index')
+    pool.getConnection((err, conn) => {
+        if(err) throw err
+        console.log('CONNECTED')
+
+        conn.query(`SELECT * FROM users WHERE id=?`,[1], (err, rows) => {
+            //once done, release connection
+            conn.release()
+
+            if(!err) {
+                res.render('index', {rows})
+            }
+        })
+    })
 })
 
 
@@ -53,7 +66,24 @@ app.post('/', (req, res) => {
     sampleFile.mv(uploadPath, function(err) {
         if(err) return res.status(500).send(err.message)
 
-        res.send('File uploaded!')
+        // res.send('File uploaded!')
+
+
+        pool.getConnection((err, conn) => {
+            if(err) throw err
+            console.log('CONNECTED')
+
+            conn.query(`UPDATE users SET profile_image = ? WHERE id= 1`,[sampleFile.name], (err, rows) => {
+                //once done, release connection
+                conn.release()
+
+                if(!err) {
+                    res.redirect('/')
+                } else {
+                    console.error(err)
+                }
+            })
+        })
     })
 })
 
